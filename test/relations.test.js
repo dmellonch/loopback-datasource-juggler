@@ -572,7 +572,7 @@ describe('relations', function() {
 
     before(function(done) {
       Physician = db.define('Physician', {name: String});
-      Patient = db.define('Patient', {name: String, age: Number, sequence: Number});
+      Patient = db.define('Patient', {name: String, age: Number, sequence: Number, realm: String});
       Appointment = db.define('Appointment', {date: {type: Date,
         default: function() {
           return new Date();
@@ -918,6 +918,10 @@ describe('relations', function() {
     });
 
     describe('find over related model with options', function() {
+      after(function() {
+        Physician.clearObservers('access');
+        Patient.clearObservers('access');
+      });
       before(function() {
         Physician.observe('access', beforeAccessFn);
         Patient.observe('access', beforeAccessFn);
